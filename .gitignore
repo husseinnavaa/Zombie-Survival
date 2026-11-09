@@ -1,0 +1,14 @@
+# Godot 4
+.godot/
+*.translation
+export_presets.cfg
+.mono/
+/android/
+
+# macOS / Windows
+.DS_Store
+Thumbs.db
+
+# Éditeurs
+.vscode/
+.idea/
