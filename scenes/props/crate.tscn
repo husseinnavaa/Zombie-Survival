@@ -1,0 +1,49 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/crate.gd" id="1_crate"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2"]
+size = Vector2(26, 26)
+
+[node name="Crate" type="StaticBody2D" groups=["interactable", "dynamic_obstacle", "stateful"]]
+collision_layer = 1
+collision_mask = 0
+script = ExtResource("1_crate")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_2")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Closed" type="Node2D" parent="Visual"]
+
+[node name="Body" type="Polygon2D" parent="Visual/Closed"]
+color = Color(0.420, 0.290, 0.169, 1.000)
+polygon = PackedVector2Array(-13, -13, 13, -13, 13, 13, -13, 13)
+
+[node name="Border" type="Line2D" parent="Visual/Closed"]
+points = PackedVector2Array(-13, -13, 13, -13, 13, 13, -13, 13)
+closed = true
+width = 2.0
+default_color = Color(0.180, 0.122, 0.071, 1.000)
+
+[node name="DiagonalA" type="Line2D" parent="Visual/Closed"]
+points = PackedVector2Array(-13, -13, 13, 13)
+width = 2.0
+default_color = Color(0.180, 0.122, 0.071, 1.000)
+
+[node name="DiagonalB" type="Line2D" parent="Visual/Closed"]
+points = PackedVector2Array(13, -13, -13, 13)
+width = 2.0
+default_color = Color(0.180, 0.122, 0.071, 1.000)
+
+[node name="Open" type="Node2D" parent="Visual"]
+visible = false
+
+[node name="Body" type="Polygon2D" parent="Visual/Open"]
+color = Color(0.290, 0.208, 0.125, 1.000)
+polygon = PackedVector2Array(-13, -13, 13, -13, 13, 13, -13, 13)
+
+[node name="Inside" type="Polygon2D" parent="Visual/Open"]
+color = Color(0.180, 0.122, 0.071, 1.000)
+polygon = PackedVector2Array(-9, -9, 9, -9, 9, 9, -9, 9)
