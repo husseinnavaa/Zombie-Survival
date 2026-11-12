@@ -1,0 +1,110 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_player"]
+[ext_resource type="PackedScene" path="res://scenes/player/bullet.tscn" id="2_bullet"]
+[ext_resource type="PackedScene" path="res://scenes/effects/muzzle_flash.tscn" id="3_muzzle_fla"]
+[ext_resource type="PackedScene" path="res://scenes/effects/blood_hit.tscn" id="4_blood_hit"]
+[ext_resource type="Texture2D" path="res://assets/light_cone.png" id="5_light_cone"]
+[ext_resource type="Texture2D" path="res://assets/light_radial.png" id="6_light_radi"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7"]
+radius = 9.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8"]
+radius = 18.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_9"]
+radius = 46.0
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+collision_layer = 2
+collision_mask = 1
+script = ExtResource("1_player")
+bullet_scene = ExtResource("2_bullet")
+muzzle_flash_scene = ExtResource("3_muzzle_fla")
+blood_hit_scene = ExtResource("4_blood_hit")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_7")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Torso" type="Polygon2D" parent="Visual"]
+color = Color(0.239, 0.416, 0.600, 1.000)
+polygon = PackedVector2Array(-5, -9, 5, -9, 5, 9, -5, 9)
+
+[node name="ArmLeft" type="Polygon2D" parent="Visual"]
+color = Color(0.851, 0.651, 0.475, 1.000)
+polygon = PackedVector2Array(3, -8, 11, -8, 11, -5, 3, -5)
+
+[node name="ArmRight" type="Polygon2D" parent="Visual"]
+color = Color(0.851, 0.651, 0.475, 1.000)
+polygon = PackedVector2Array(3, 5, 11, 5, 11, 8, 3, 8)
+
+[node name="Gun" type="Polygon2D" parent="Visual"]
+color = Color(0.137, 0.153, 0.180, 1.000)
+polygon = PackedVector2Array(9, -2, 18, -2, 18, 2, 9, 2)
+
+[node name="Head" type="Polygon2D" parent="Visual"]
+color = Color(0.851, 0.651, 0.475, 1.000)
+polygon = PackedVector2Array(-4, -4, 4, -4, 4, 4, -4, 4)
+
+[node name="Hair" type="Polygon2D" parent="Visual"]
+color = Color(0.227, 0.165, 0.110, 1.000)
+polygon = PackedVector2Array(-5, -5, 0, -5, 0, 5, -5, 5)
+
+[node name="Muzzle" type="Marker2D" parent="Visual"]
+position = Vector2(18, 0)
+
+[node name="Flashlight" type="PointLight2D" parent="Visual"]
+color = Color(1.000, 0.949, 0.749, 1.000)
+energy = 1.5
+shadow_enabled = true
+shadow_filter = 1
+texture = ExtResource("5_light_cone")
+texture_scale = 3.2
+
+[node name="SwingFx" type="Polygon2D" parent="Visual"]
+visible = false
+color = Color(1.000, 1.000, 1.000, 0.500)
+polygon = PackedVector2Array(0, 0, 24, -18, 30, -6, 30, 6, 24, 18)
+
+[node name="MeleeArea" type="Area2D" parent="Visual"]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Visual/MeleeArea"]
+position = Vector2(24, 0)
+shape = SubResource("CircleShape2D_8")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2, 2)
+position_smoothing_enabled = true
+position_smoothing_speed = 8.0
+
+[node name="AmbientLight" type="PointLight2D" parent="."]
+color = Color(0.600, 0.702, 1.000, 1.000)
+energy = 0.9
+shadow_enabled = true
+shadow_filter = 1
+texture = ExtResource("6_light_radi")
+texture_scale = 1.3
+
+[node name="InteractArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractArea"]
+shape = SubResource("CircleShape2D_9")
+
+[node name="ReloadTimer" type="Timer" parent="."]
+wait_time = 1.3
+one_shot = true
+
+[node name="FireTimer" type="Timer" parent="."]
+wait_time = 0.28
+one_shot = true
+
+[node name="MeleeTimer" type="Timer" parent="."]
+wait_time = 0.55
+one_shot = true
