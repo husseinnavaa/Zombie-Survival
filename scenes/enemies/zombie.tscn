@@ -1,0 +1,68 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/zombie.gd" id="1_zombie"]
+[ext_resource type="PackedScene" path="res://scenes/effects/blood_hit.tscn" id="2_blood_hit"]
+[ext_resource type="PackedScene" path="res://scenes/effects/blood_stain.tscn" id="3_blood_stai"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4"]
+radius = 9.0
+
+[node name="Zombie" type="CharacterBody2D" groups=["zombies"]]
+collision_layer = 4
+collision_mask = 1
+script = ExtResource("1_zombie")
+blood_hit_scene = ExtResource("2_blood_hit")
+blood_stain_scene = ExtResource("3_blood_stai")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_4")
+
+[node name="SightRay" type="RayCast2D" parent="."]
+collision_mask = 1
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Alive" type="Node2D" parent="Visual"]
+
+[node name="Torso" type="Polygon2D" parent="Visual/Alive"]
+color = Color(0.294, 0.251, 0.212, 1.000)
+polygon = PackedVector2Array(-5, -8, 5, -8, 5, 8, -5, 8)
+
+[node name="ArmLeft" type="Polygon2D" parent="Visual/Alive"]
+color = Color(0.498, 0.604, 0.420, 1.000)
+polygon = PackedVector2Array(2, -9, 12, -9, 12, -6, 2, -6)
+
+[node name="ArmRight" type="Polygon2D" parent="Visual/Alive"]
+color = Color(0.498, 0.604, 0.420, 1.000)
+polygon = PackedVector2Array(2, 6, 12, 6, 12, 9, 2, 9)
+
+[node name="Head" type="Polygon2D" parent="Visual/Alive"]
+color = Color(0.498, 0.604, 0.420, 1.000)
+polygon = PackedVector2Array(-4, -4, 4, -4, 4, 4, -4, 4)
+
+[node name="EyeLeft" type="Polygon2D" parent="Visual/Alive"]
+color = Color(1.000, 0.188, 0.188, 1.000)
+polygon = PackedVector2Array(2, -3, 4, -3, 4, -1, 2, -1)
+
+[node name="EyeRight" type="Polygon2D" parent="Visual/Alive"]
+color = Color(1.000, 0.188, 0.188, 1.000)
+polygon = PackedVector2Array(2, 1, 4, 1, 4, 3, 2, 3)
+
+[node name="Dead" type="Node2D" parent="Visual"]
+visible = false
+
+[node name="Blood" type="Polygon2D" parent="Visual/Dead"]
+color = Color(0.302, 0.039, 0.051, 0.750)
+polygon = PackedVector2Array(-13, -9, 13, -9, 13, 9, -13, 9)
+
+[node name="BodyFlat" type="Polygon2D" parent="Visual/Dead"]
+color = Color(0.204, 0.169, 0.141, 1.000)
+polygon = PackedVector2Array(-9, -4, 9, -4, 9, 4, -9, 4)
+
+[node name="HeadFlat" type="Polygon2D" parent="Visual/Dead"]
+color = Color(0.353, 0.431, 0.294, 1.000)
+polygon = PackedVector2Array(8, -3, 14, -3, 14, 3, 8, 3)
+
+[node name="AttackTimer" type="Timer" parent="."]
+wait_time = 1.1
+one_shot = true
