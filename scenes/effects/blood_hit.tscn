@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/particles_once.gd" id="1_particles_"]
+
+[sub_resource type="Gradient" id="Gradient_2"]
+offsets = PackedFloat32Array(0, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_3"]
+light_mode = 1
+
+[node name="Particles" type="CPUParticles2D"]
+emitting = false
+amount = 8
+lifetime = 0.35
+one_shot = true
+explosiveness = 1.0
+spread = 70.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 40.0
+initial_velocity_max = 110.0
+scale_amount_min = 2.0
+scale_amount_max = 3.5
+color = Color(0.478, 0.078, 0.078, 1.000)
+color_ramp = SubResource("Gradient_2")
+material = SubResource("CanvasItemMaterial_3")
+script = ExtResource("1_particles_")
