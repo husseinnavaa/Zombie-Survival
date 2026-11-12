@@ -1,0 +1,8 @@
+[gd_scene load_steps=1 format=3]
+
+
+[node name="BloodStain" type="Polygon2D"]
+z_index = -6
+color = Color(0.349, 0.051, 0.059, 0.600)
+polygon = PackedVector2Array(-4, -4, 4, -4, 4, 4, -4, 4)
+scale = Vector2(1.4, 1.0)
