@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/enemies/zombie.tscn" id="1_zombie"]
+
+[node name="ZombieRunner" instance=ExtResource("1_zombie")]
+max_hp = 25.0
+speed = 135.0
+damage = 8.0
+attack_rate = 0.7
+detect_range = 300.0
+modulate = Color(1.000, 0.847, 0.847, 1.000)
