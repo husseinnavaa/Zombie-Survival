@@ -1,0 +1,68 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/explosion.gd" id="1_explosion"]
+[ext_resource type="Texture2D" path="res://assets/light_radial.png" id="2_light_radi"]
+
+[sub_resource type="Gradient" id="Gradient_3"]
+offsets = PackedFloat32Array(0, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_4"]
+light_mode = 1
+
+[node name="Explosion" type="Node2D"]
+script = ExtResource("1_explosion")
+
+[node name="Fire" type="CPUParticles2D" parent="."]
+emitting = true
+amount = 40
+lifetime = 0.6
+one_shot = true
+explosiveness = 1.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 80.0
+initial_velocity_max = 260.0
+scale_amount_min = 3.0
+scale_amount_max = 5.5
+color = Color(1.000, 0.604, 0.180, 1.000)
+color_ramp = SubResource("Gradient_3")
+material = SubResource("CanvasItemMaterial_4")
+
+[node name="Sparks" type="CPUParticles2D" parent="."]
+emitting = true
+amount = 20
+lifetime = 0.4
+one_shot = true
+explosiveness = 1.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 160.0
+scale_amount_min = 2.5
+scale_amount_max = 4.0
+color = Color(1.000, 0.878, 0.541, 1.000)
+color_ramp = SubResource("Gradient_3")
+material = SubResource("CanvasItemMaterial_4")
+
+[node name="Smoke" type="CPUParticles2D" parent="."]
+emitting = true
+amount = 16
+lifetime = 0.9
+one_shot = true
+explosiveness = 1.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 20.0
+initial_velocity_max = 90.0
+scale_amount_min = 4.0
+scale_amount_max = 6.0
+color = Color(0.227, 0.227, 0.227, 1.000)
+color_ramp = SubResource("Gradient_3")
+material = SubResource("CanvasItemMaterial_4")
+
+[node name="Flash" type="PointLight2D" parent="."]
+color = Color(1.000, 0.690, 0.314, 1.000)
+energy = 3.0
+texture = ExtResource("2_light_radi")
+texture_scale = 3.0
