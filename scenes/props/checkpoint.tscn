@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/checkpoint.gd" id="1_checkpoint"]
+[ext_resource type="Texture2D" path="res://assets/light_radial.png" id="2_light_radi"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3"]
+size = Vector2(28, 28)
+
+[node name="Checkpoint" type="Area2D" groups=["checkpoints", "stateful"]]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_checkpoint")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_3")
+
+[node name="Base" type="Polygon2D" parent="."]
+color = Color(0.114, 0.165, 0.188, 1.000)
+polygon = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
+
+[node name="Pad" type="Polygon2D" parent="."]
+color = Color(0.247, 0.655, 0.627, 1.000)
+polygon = PackedVector2Array(-7, -7, 7, -7, 7, 7, -7, 7)
+
+[node name="Core" type="Polygon2D" parent="."]
+color = Color(1.000, 1.000, 0.702, 1.000)
+polygon = PackedVector2Array(-3, -3, 3, -3, 3, 3, -3, 3)
+
+[node name="Light" type="PointLight2D" parent="."]
+color = Color(1.000, 0.800, 0.400, 1.000)
+energy = 0.9
+texture = ExtResource("2_light_radi")
+texture_scale = 1.6
