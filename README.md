@@ -37,3 +37,12 @@ scenes/
 Ouvre `scenes/levels/level1.tscn` : déplace un zombie, ajoute une caisse (glisse `props/crate.tscn`),
 coche `Has Key` sur une caisse pour y mettre la clé. Pour un nouveau niveau : duplique `level1.tscn`.
 Astuce : pendant l'édition, cache `CanvasModulate` (l'œil) pour voir le niveau en clair.
+
+## Équipe
+- Adam Belasfar
+- El Houssein Navaa
+- Wael Feki
+
+## État du projet
+La partie 1 est terminée : un niveau jouable de bout en bout (joueur, zombies marcheurs et coureurs, caisses, clé, porte, barils explosifs, points de sauvegarde, sortie, HUD et menus).
+La partie 2 ajoutera les niveaux 2 et 3, les menus complets, les effets visuels et un boss.
