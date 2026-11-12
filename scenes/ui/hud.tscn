@@ -1,0 +1,444 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/hud.gd" id="1_hud"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2"]
+bg_color = Color(0.769, 0.169, 0.169, 1.000)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3"]
+bg_color = Color(0.847, 0.761, 0.290, 1.000)
+
+[node name="HUD" type="CanvasLayer"]
+layer = 10
+process_mode = 3
+script = ExtResource("1_hud")
+
+[node name="HurtOverlay" type="ColorRect" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+unique_name_in_owner = true
+color = Color(0.800, 0.000, 0.000, 0.000)
+mouse_filter = 2
+
+[node name="TopLeft" type="VBoxContainer" parent="."]
+layout_mode = 3
+anchors_preset = -1
+anchor_left = 0
+anchor_top = 0
+anchor_right = 0
+anchor_bottom = 0
+offset_left = 20
+offset_top = 20
+offset_right = 260
+offset_bottom = 110
+grow_horizontal = 1
+grow_vertical = 1
+theme_override_constants/separation = 4
+mouse_filter = 2
+
+[node name="HealthBar" type="ProgressBar" parent="TopLeft"]
+layout_mode = 2
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 16)
+max_value = 100.0
+value = 100.0
+show_percentage = false
+theme_override_styles/fill = SubResource("StyleBoxFlat_2")
+mouse_filter = 2
+
+[node name="StaminaBar" type="ProgressBar" parent="TopLeft"]
+layout_mode = 2
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 8)
+max_value = 100.0
+value = 100.0
+show_percentage = false
+theme_override_styles/fill = SubResource("StyleBoxFlat_3")
+mouse_filter = 2
+
+[node name="KeyLabel" type="Label" parent="TopLeft"]
+layout_mode = 2
+text = "CLÉ"
+horizontal_alignment = 0
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.941, 0.816, 0.376, 1.000)
+theme_override_colors/font_shadow_color = Color(0.000, 0.000, 0.000, 0.800)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+unique_name_in_owner = true
+visible = false
+mouse_filter = 2
+
+[node name="CrouchLabel" type="Label" parent="TopLeft"]
+layout_mode = 2
+text = "ACCROUPI"
+horizontal_alignment = 0
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.604, 0.722, 0.847, 1.000)
+theme_override_colors/font_shadow_color = Color(0.000, 0.000, 0.000, 0.800)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+unique_name_in_owner = true
+visible = false
+mouse_filter = 2
+
+[node name="ObjectiveLabel" type="Label" parent="."]
+layout_mode = 3
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0
+anchor_right = 0.5
+anchor_bottom = 0
+offset_left = -400
+offset_top = 14
+offset_right = 400
+offset_bottom = 44
+grow_horizontal = 2
+grow_vertical = 2
+text = ""
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.851, 0.902, 1.000, 0.900)
+theme_override_colors/font_shadow_color = Color(0.000, 0.000, 0.000, 0.800)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+unique_name_in_owner = true
+mouse_filter = 2
+
+[node name="HintLabel" type="Label" parent="."]
+layout_mode = 3
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 1
+anchor_right = 0.5
+anchor_bottom = 1
+offset_left = -300
+offset_top = -110
+offset_right = 300
+offset_bottom = -82
+grow_horizontal = 2
+grow_vertical = 0
+text = ""
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(1.000, 1.000, 1.000, 1.000)
+theme_override_colors/font_shadow_color = Color(0.000, 0.000, 0.000, 0.800)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+unique_name_in_owner = true
+mouse_filter = 2
+
+[node name="ToastLabel" type="Label" parent="."]
+layout_mode = 3
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 1
+anchor_right = 0.5
+anchor_bottom = 1
+offset_left = -300
+offset_top = -155
+offset_right = 300
+offset_bottom = -120
+grow_horizontal = 2
+grow_vertical = 0
+text = ""
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(1.000, 0.922, 0.600, 1.000)
+theme_override_colors/font_shadow_color = Color(0.000, 0.000, 0.000, 0.800)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+unique_name_in_owner = true
+mouse_filter = 2
+
+[node name="AmmoLabel" type="Label" parent="."]
+layout_mode = 3
+anchors_preset = -1
+anchor_left = 1
+anchor_top = 1
+anchor_right = 1
+anchor_bottom = 1
+offset_left = -280
+offset_top = -60
+offset_right = -20
+offset_bottom = -20
+grow_horizontal = 0
+grow_vertical = 0
+text = "12 / 24"
+horizontal_alignment = 2
+theme_override_font_sizes/font_size = 28
+theme_override_colors/font_color = Color(0.949, 0.902, 0.690, 1.000)
+theme_override_colors/font_shadow_color = Color(0.000, 0.000, 0.000, 0.800)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+unique_name_in_owner = true
+mouse_filter = 2
+
+[node name="TitleBox" type="VBoxContainer" parent="."]
+layout_mode = 3
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.4
+anchor_right = 0.5
+anchor_bottom = 0.4
+offset_left = -450
+offset_top = -60
+offset_right = 450
+offset_bottom = 60
+grow_horizontal = 2
+grow_vertical = 2
+unique_name_in_owner = true
+mouse_filter = 2
+
+[node name="TitleLabel" type="Label" parent="TitleBox"]
+layout_mode = 2
+text = "TITRE"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 40
+theme_override_colors/font_color = Color(0.902, 0.200, 0.200, 1.000)
+theme_override_colors/font_shadow_color = Color(0.000, 0.000, 0.000, 0.800)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+unique_name_in_owner = true
+mouse_filter = 2
+
+[node name="SubtitleLabel" type="Label" parent="TitleBox"]
+layout_mode = 2
+text = "Sous-titre"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(0.851, 0.902, 1.000, 1.000)
+theme_override_colors/font_shadow_color = Color(0.000, 0.000, 0.000, 0.800)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+unique_name_in_owner = true
+mouse_filter = 2
+
+[node name="PauseMenu" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+unique_name_in_owner = true
+visible = false
+mouse_filter = 2
+
+[node name="Dim" type="ColorRect" parent="PauseMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.000, 0.000, 0.000, 0.720)
+mouse_filter = 2
+
+[node name="Center" type="CenterContainer" parent="PauseMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Box" type="VBoxContainer" parent="PauseMenu/Center"]
+layout_mode = 2
+theme_override_constants/separation = 14
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="PauseMenu/Center/Box"]
+layout_mode = 2
+text = "PAUSE"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 48
+theme_override_colors/font_color = Color(1.000, 1.000, 1.000, 1.000)
+theme_override_colors/font_shadow_color = Color(0.000, 0.000, 0.000, 0.800)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+mouse_filter = 2
+
+[node name="Help1" type="Label" parent="PauseMenu/Center/Box"]
+layout_mode = 2
+text = "Déplacement : W A S D ou flèches   |   Viser : souris"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(0.902, 0.929, 0.961, 1.000)
+theme_override_colors/font_shadow_color = Color(0.000, 0.000, 0.000, 0.800)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+mouse_filter = 2
+
+[node name="Help2" type="Label" parent="PauseMenu/Center/Box"]
+layout_mode = 2
+text = "Tirer : clic gauche   |   Corps à corps : clic droit   |   Recharger : R"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(0.902, 0.929, 0.961, 1.000)
+theme_override_colors/font_shadow_color = Color(0.000, 0.000, 0.000, 0.800)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+mouse_filter = 2
+
+[node name="Help3" type="Label" parent="PauseMenu/Center/Box"]
+layout_mode = 2
+text = "Courir : Maj   |   S'accroupir : Ctrl ou C   |   Interagir : E   |   Lampe : F"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(0.902, 0.929, 0.961, 1.000)
+theme_override_colors/font_shadow_color = Color(0.000, 0.000, 0.000, 0.800)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+mouse_filter = 2
+
+[node name="ResumeButton" type="Button" parent="PauseMenu/Center/Box"]
+layout_mode = 2
+unique_name_in_owner = true
+custom_minimum_size = Vector2(360, 42)
+text = "Reprendre"
+
+[node name="QuitButton" type="Button" parent="PauseMenu/Center/Box"]
+layout_mode = 2
+unique_name_in_owner = true
+custom_minimum_size = Vector2(360, 42)
+text = "Quitter"
+
+[node name="GameOverMenu" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+unique_name_in_owner = true
+visible = false
+mouse_filter = 2
+
+[node name="Dim" type="ColorRect" parent="GameOverMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.000, 0.000, 0.000, 0.720)
+mouse_filter = 2
+
+[node name="Center" type="CenterContainer" parent="GameOverMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Box" type="VBoxContainer" parent="GameOverMenu/Center"]
+layout_mode = 2
+theme_override_constants/separation = 14
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="GameOverMenu/Center/Box"]
+layout_mode = 2
+text = "VOUS ÊTES MORT"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 48
+theme_override_colors/font_color = Color(0.769, 0.169, 0.169, 1.000)
+theme_override_colors/font_shadow_color = Color(0.000, 0.000, 0.000, 0.800)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+mouse_filter = 2
+
+[node name="RestartCheckpointButton" type="Button" parent="GameOverMenu/Center/Box"]
+layout_mode = 2
+unique_name_in_owner = true
+custom_minimum_size = Vector2(360, 42)
+text = "Recommencer au dernier point de sauvegarde"
+
+[node name="RestartLevelButton" type="Button" parent="GameOverMenu/Center/Box"]
+layout_mode = 2
+unique_name_in_owner = true
+custom_minimum_size = Vector2(360, 42)
+text = "Recommencer le niveau"
+
+[node name="QuitButtonOver" type="Button" parent="GameOverMenu/Center/Box"]
+layout_mode = 2
+unique_name_in_owner = true
+custom_minimum_size = Vector2(360, 42)
+text = "Quitter"
+
+[node name="WinMenu" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+unique_name_in_owner = true
+visible = false
+mouse_filter = 2
+
+[node name="Dim" type="ColorRect" parent="WinMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.000, 0.000, 0.000, 0.720)
+mouse_filter = 2
+
+[node name="Center" type="CenterContainer" parent="WinMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Box" type="VBoxContainer" parent="WinMenu/Center"]
+layout_mode = 2
+theme_override_constants/separation = 14
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="WinMenu/Center/Box"]
+layout_mode = 2
+text = "NIVEAU TERMINÉ"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 48
+theme_override_colors/font_color = Color(0.310, 0.820, 0.416, 1.000)
+theme_override_colors/font_shadow_color = Color(0.000, 0.000, 0.000, 0.800)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+mouse_filter = 2
+
+[node name="WinStats" type="Label" parent="WinMenu/Center/Box"]
+layout_mode = 2
+text = "Zombies éliminés : 0   |   Temps : 0:00"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(0.902, 0.929, 0.961, 1.000)
+theme_override_colors/font_shadow_color = Color(0.000, 0.000, 0.000, 0.800)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+unique_name_in_owner = true
+mouse_filter = 2
+
+[node name="ReplayButton" type="Button" parent="WinMenu/Center/Box"]
+layout_mode = 2
+unique_name_in_owner = true
+custom_minimum_size = Vector2(360, 42)
+text = "Rejouer le niveau"
+
+[node name="QuitButtonWin" type="Button" parent="WinMenu/Center/Box"]
+layout_mode = 2
+unique_name_in_owner = true
+custom_minimum_size = Vector2(360, 42)
+text = "Quitter"
