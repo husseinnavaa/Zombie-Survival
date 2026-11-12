@@ -1,0 +1,989 @@
+[gd_scene load_steps=14 format=3]
+
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="2_hud"]
+[ext_resource type="PackedScene" path="res://scenes/props/wall.tscn" id="3_wall"]
+[ext_resource type="PackedScene" path="res://scenes/props/crate.tscn" id="4_crate"]
+[ext_resource type="PackedScene" path="res://scenes/props/barrel.tscn" id="5_barrel"]
+[ext_resource type="PackedScene" path="res://scenes/props/door.tscn" id="6_door"]
+[ext_resource type="PackedScene" path="res://scenes/props/checkpoint.tscn" id="7_checkpoint"]
+[ext_resource type="PackedScene" path="res://scenes/props/exit.tscn" id="8_exit"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/zombie.tscn" id="9_zombie"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/zombie_runner.tscn" id="10_zombie_run"]
+[ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="11_player"]
+[ext_resource type="Texture2D" path="res://assets/floor.png" id="12_floor"]
+[ext_resource type="Texture2D" path="res://assets/street.png" id="13_street"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_main")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.090, 0.110, 0.169, 1.000)
+
+[node name="Sol" type="Node2D" parent="."]
+z_index = -10
+
+[node name="Rock" type="ColorRect" parent="Sol"]
+layout_mode = 0
+offset_right = 1280
+offset_bottom = 640
+color = Color(0.031, 0.039, 0.059, 1.000)
+mouse_filter = 2
+
+[node name="RoomStart" type="TextureRect" parent="Sol"]
+layout_mode = 0
+offset_left = 32
+offset_top = 32
+offset_right = 224
+offset_bottom = 192
+texture = ExtResource("12_floor")
+expand_mode = 1
+stretch_mode = 1
+mouse_filter = 2
+
+[node name="RoomBig" type="TextureRect" parent="Sol"]
+layout_mode = 0
+offset_left = 256
+offset_top = 32
+offset_right = 672
+offset_bottom = 192
+texture = ExtResource("12_floor")
+expand_mode = 1
+stretch_mode = 1
+mouse_filter = 2
+
+[node name="RoomKey" type="TextureRect" parent="Sol"]
+layout_mode = 0
+offset_left = 704
+offset_top = 32
+offset_right = 1248
+offset_bottom = 192
+texture = ExtResource("12_floor")
+expand_mode = 1
+stretch_mode = 1
+mouse_filter = 2
+
+[node name="PassageA" type="TextureRect" parent="Sol"]
+layout_mode = 0
+offset_left = 224
+offset_top = 96
+offset_right = 256
+offset_bottom = 160
+texture = ExtResource("12_floor")
+expand_mode = 1
+stretch_mode = 1
+mouse_filter = 2
+
+[node name="PassageB" type="TextureRect" parent="Sol"]
+layout_mode = 0
+offset_left = 672
+offset_top = 96
+offset_right = 704
+offset_bottom = 160
+texture = ExtResource("12_floor")
+expand_mode = 1
+stretch_mode = 1
+mouse_filter = 2
+
+[node name="Street" type="TextureRect" parent="Sol"]
+layout_mode = 0
+offset_left = 32
+offset_top = 224
+offset_right = 1248
+offset_bottom = 384
+texture = ExtResource("13_street")
+expand_mode = 1
+stretch_mode = 1
+mouse_filter = 2
+
+[node name="RampLeft" type="TextureRect" parent="Sol"]
+layout_mode = 0
+offset_left = 96
+offset_top = 192
+offset_right = 160
+offset_bottom = 224
+texture = ExtResource("13_street")
+expand_mode = 1
+stretch_mode = 1
+mouse_filter = 2
+
+[node name="RampRight" type="TextureRect" parent="Sol"]
+layout_mode = 0
+offset_left = 928
+offset_top = 192
+offset_right = 992
+offset_bottom = 224
+texture = ExtResource("13_street")
+expand_mode = 1
+stretch_mode = 1
+mouse_filter = 2
+
+[node name="DoorTile" type="TextureRect" parent="Sol"]
+layout_mode = 0
+offset_left = 640
+offset_top = 384
+offset_right = 672
+offset_bottom = 416
+texture = ExtResource("13_street")
+expand_mode = 1
+stretch_mode = 1
+mouse_filter = 2
+
+[node name="EvacZone" type="TextureRect" parent="Sol"]
+layout_mode = 0
+offset_left = 32
+offset_top = 416
+offset_right = 1248
+offset_bottom = 608
+texture = ExtResource("12_floor")
+expand_mode = 1
+stretch_mode = 1
+mouse_filter = 2
+
+[node name="LaneMark_2" type="ColorRect" parent="Sol"]
+layout_mode = 0
+offset_left = 68
+offset_top = 302
+offset_right = 92
+offset_bottom = 305
+color = Color(0.749, 0.651, 0.251, 0.450)
+mouse_filter = 2
+
+[node name="LaneMark_4" type="ColorRect" parent="Sol"]
+layout_mode = 0
+offset_left = 132
+offset_top = 302
+offset_right = 156
+offset_bottom = 305
+color = Color(0.749, 0.651, 0.251, 0.450)
+mouse_filter = 2
+
+[node name="LaneMark_6" type="ColorRect" parent="Sol"]
+layout_mode = 0
+offset_left = 196
+offset_top = 302
+offset_right = 220
+offset_bottom = 305
+color = Color(0.749, 0.651, 0.251, 0.450)
+mouse_filter = 2
+
+[node name="LaneMark_8" type="ColorRect" parent="Sol"]
+layout_mode = 0
+offset_left = 260
+offset_top = 302
+offset_right = 284
+offset_bottom = 305
+color = Color(0.749, 0.651, 0.251, 0.450)
+mouse_filter = 2
+
+[node name="LaneMark_12" type="ColorRect" parent="Sol"]
+layout_mode = 0
+offset_left = 388
+offset_top = 302
+offset_right = 412
+offset_bottom = 305
+color = Color(0.749, 0.651, 0.251, 0.450)
+mouse_filter = 2
+
+[node name="LaneMark_14" type="ColorRect" parent="Sol"]
+layout_mode = 0
+offset_left = 452
+offset_top = 302
+offset_right = 476
+offset_bottom = 305
+color = Color(0.749, 0.651, 0.251, 0.450)
+mouse_filter = 2
+
+[node name="LaneMark_16" type="ColorRect" parent="Sol"]
+layout_mode = 0
+offset_left = 516
+offset_top = 302
+offset_right = 540
+offset_bottom = 305
+color = Color(0.749, 0.651, 0.251, 0.450)
+mouse_filter = 2
+
+[node name="LaneMark_18" type="ColorRect" parent="Sol"]
+layout_mode = 0
+offset_left = 580
+offset_top = 302
+offset_right = 604
+offset_bottom = 305
+color = Color(0.749, 0.651, 0.251, 0.450)
+mouse_filter = 2
+
+[node name="LaneMark_20" type="ColorRect" parent="Sol"]
+layout_mode = 0
+offset_left = 644
+offset_top = 302
+offset_right = 668
+offset_bottom = 305
+color = Color(0.749, 0.651, 0.251, 0.450)
+mouse_filter = 2
+
+[node name="LaneMark_22" type="ColorRect" parent="Sol"]
+layout_mode = 0
+offset_left = 708
+offset_top = 302
+offset_right = 732
+offset_bottom = 305
+color = Color(0.749, 0.651, 0.251, 0.450)
+mouse_filter = 2
+
+[node name="LaneMark_24" type="ColorRect" parent="Sol"]
+layout_mode = 0
+offset_left = 772
+offset_top = 302
+offset_right = 796
+offset_bottom = 305
+color = Color(0.749, 0.651, 0.251, 0.450)
+mouse_filter = 2
+
+[node name="LaneMark_28" type="ColorRect" parent="Sol"]
+layout_mode = 0
+offset_left = 900
+offset_top = 302
+offset_right = 924
+offset_bottom = 305
+color = Color(0.749, 0.651, 0.251, 0.450)
+mouse_filter = 2
+
+[node name="LaneMark_30" type="ColorRect" parent="Sol"]
+layout_mode = 0
+offset_left = 964
+offset_top = 302
+offset_right = 988
+offset_bottom = 305
+color = Color(0.749, 0.651, 0.251, 0.450)
+mouse_filter = 2
+
+[node name="LaneMark_32" type="ColorRect" parent="Sol"]
+layout_mode = 0
+offset_left = 1028
+offset_top = 302
+offset_right = 1052
+offset_bottom = 305
+color = Color(0.749, 0.651, 0.251, 0.450)
+mouse_filter = 2
+
+[node name="LaneMark_34" type="ColorRect" parent="Sol"]
+layout_mode = 0
+offset_left = 1092
+offset_top = 302
+offset_right = 1116
+offset_bottom = 305
+color = Color(0.749, 0.651, 0.251, 0.450)
+mouse_filter = 2
+
+[node name="LaneMark_36" type="ColorRect" parent="Sol"]
+layout_mode = 0
+offset_left = 1156
+offset_top = 302
+offset_right = 1180
+offset_bottom = 305
+color = Color(0.749, 0.651, 0.251, 0.450)
+mouse_filter = 2
+
+[node name="LaneMark_38" type="ColorRect" parent="Sol"]
+layout_mode = 0
+offset_left = 1220
+offset_top = 302
+offset_right = 1244
+offset_bottom = 305
+color = Color(0.749, 0.651, 0.251, 0.450)
+mouse_filter = 2
+
+[node name="Murs" type="Node2D" parent="."]
+
+[node name="Wall_0_0" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(16, 16)
+
+[node name="Wall_1_0" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(48, 16)
+
+[node name="Wall_2_0" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(80, 16)
+
+[node name="Wall_3_0" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(112, 16)
+
+[node name="Wall_4_0" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(144, 16)
+
+[node name="Wall_5_0" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(176, 16)
+
+[node name="Wall_6_0" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(208, 16)
+
+[node name="Wall_7_0" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(240, 16)
+
+[node name="Wall_8_0" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(272, 16)
+
+[node name="Wall_9_0" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(304, 16)
+
+[node name="Wall_10_0" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(336, 16)
+
+[node name="Wall_11_0" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(368, 16)
+
+[node name="Wall_12_0" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(400, 16)
+
+[node name="Wall_13_0" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(432, 16)
+
+[node name="Wall_14_0" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(464, 16)
+
+[node name="Wall_15_0" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(496, 16)
+
+[node name="Wall_16_0" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(528, 16)
+
+[node name="Wall_17_0" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(560, 16)
+
+[node name="Wall_18_0" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(592, 16)
+
+[node name="Wall_19_0" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(624, 16)
+
+[node name="Wall_20_0" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(656, 16)
+
+[node name="Wall_21_0" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(688, 16)
+
+[node name="Wall_22_0" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(720, 16)
+
+[node name="Wall_23_0" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(752, 16)
+
+[node name="Wall_24_0" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(784, 16)
+
+[node name="Wall_25_0" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(816, 16)
+
+[node name="Wall_26_0" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(848, 16)
+
+[node name="Wall_27_0" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(880, 16)
+
+[node name="Wall_28_0" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(912, 16)
+
+[node name="Wall_29_0" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(944, 16)
+
+[node name="Wall_30_0" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(976, 16)
+
+[node name="Wall_31_0" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1008, 16)
+
+[node name="Wall_32_0" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1040, 16)
+
+[node name="Wall_33_0" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1072, 16)
+
+[node name="Wall_34_0" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1104, 16)
+
+[node name="Wall_35_0" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1136, 16)
+
+[node name="Wall_36_0" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1168, 16)
+
+[node name="Wall_37_0" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1200, 16)
+
+[node name="Wall_38_0" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1232, 16)
+
+[node name="Wall_39_0" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1264, 16)
+
+[node name="Wall_0_1" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(16, 48)
+
+[node name="Wall_7_1" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(240, 48)
+
+[node name="Wall_21_1" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(688, 48)
+
+[node name="Wall_39_1" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1264, 48)
+
+[node name="Wall_0_2" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(16, 80)
+
+[node name="Wall_7_2" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(240, 80)
+
+[node name="Wall_21_2" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(688, 80)
+
+[node name="Wall_39_2" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1264, 80)
+
+[node name="Wall_0_3" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(16, 112)
+
+[node name="Wall_39_3" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1264, 112)
+
+[node name="Wall_0_4" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(16, 144)
+
+[node name="Wall_39_4" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1264, 144)
+
+[node name="Wall_0_5" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(16, 176)
+
+[node name="Wall_7_5" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(240, 176)
+
+[node name="Wall_21_5" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(688, 176)
+
+[node name="Wall_39_5" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1264, 176)
+
+[node name="Wall_0_6" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(16, 208)
+
+[node name="Wall_1_6" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(48, 208)
+
+[node name="Wall_2_6" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(80, 208)
+
+[node name="Wall_5_6" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(176, 208)
+
+[node name="Wall_6_6" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(208, 208)
+
+[node name="Wall_7_6" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(240, 208)
+
+[node name="Wall_8_6" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(272, 208)
+
+[node name="Wall_9_6" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(304, 208)
+
+[node name="Wall_10_6" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(336, 208)
+
+[node name="Wall_11_6" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(368, 208)
+
+[node name="Wall_12_6" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(400, 208)
+
+[node name="Wall_13_6" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(432, 208)
+
+[node name="Wall_14_6" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(464, 208)
+
+[node name="Wall_15_6" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(496, 208)
+
+[node name="Wall_16_6" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(528, 208)
+
+[node name="Wall_17_6" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(560, 208)
+
+[node name="Wall_18_6" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(592, 208)
+
+[node name="Wall_19_6" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(624, 208)
+
+[node name="Wall_20_6" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(656, 208)
+
+[node name="Wall_21_6" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(688, 208)
+
+[node name="Wall_22_6" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(720, 208)
+
+[node name="Wall_23_6" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(752, 208)
+
+[node name="Wall_24_6" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(784, 208)
+
+[node name="Wall_25_6" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(816, 208)
+
+[node name="Wall_26_6" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(848, 208)
+
+[node name="Wall_27_6" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(880, 208)
+
+[node name="Wall_28_6" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(912, 208)
+
+[node name="Wall_31_6" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1008, 208)
+
+[node name="Wall_32_6" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1040, 208)
+
+[node name="Wall_33_6" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1072, 208)
+
+[node name="Wall_34_6" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1104, 208)
+
+[node name="Wall_35_6" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1136, 208)
+
+[node name="Wall_36_6" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1168, 208)
+
+[node name="Wall_37_6" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1200, 208)
+
+[node name="Wall_38_6" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1232, 208)
+
+[node name="Wall_39_6" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1264, 208)
+
+[node name="Wall_0_7" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(16, 240)
+
+[node name="Wall_39_7" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1264, 240)
+
+[node name="Wall_0_8" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(16, 272)
+
+[node name="Wall_20_8" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(656, 272)
+
+[node name="Wall_39_8" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1264, 272)
+
+[node name="Wall_0_9" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(16, 304)
+
+[node name="Wall_10_9" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(336, 304)
+
+[node name="Wall_11_9" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(368, 304)
+
+[node name="Wall_26_9" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(848, 304)
+
+[node name="Wall_27_9" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(880, 304)
+
+[node name="Wall_39_9" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1264, 304)
+
+[node name="Wall_0_10" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(16, 336)
+
+[node name="Wall_20_10" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(656, 336)
+
+[node name="Wall_39_10" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1264, 336)
+
+[node name="Wall_0_11" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(16, 368)
+
+[node name="Wall_39_11" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1264, 368)
+
+[node name="Wall_0_12" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(16, 400)
+
+[node name="Wall_1_12" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(48, 400)
+
+[node name="Wall_2_12" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(80, 400)
+
+[node name="Wall_3_12" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(112, 400)
+
+[node name="Wall_4_12" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(144, 400)
+
+[node name="Wall_5_12" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(176, 400)
+
+[node name="Wall_6_12" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(208, 400)
+
+[node name="Wall_7_12" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(240, 400)
+
+[node name="Wall_8_12" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(272, 400)
+
+[node name="Wall_9_12" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(304, 400)
+
+[node name="Wall_10_12" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(336, 400)
+
+[node name="Wall_11_12" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(368, 400)
+
+[node name="Wall_12_12" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(400, 400)
+
+[node name="Wall_13_12" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(432, 400)
+
+[node name="Wall_14_12" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(464, 400)
+
+[node name="Wall_15_12" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(496, 400)
+
+[node name="Wall_16_12" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(528, 400)
+
+[node name="Wall_17_12" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(560, 400)
+
+[node name="Wall_18_12" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(592, 400)
+
+[node name="Wall_19_12" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(624, 400)
+
+[node name="Wall_21_12" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(688, 400)
+
+[node name="Wall_22_12" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(720, 400)
+
+[node name="Wall_23_12" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(752, 400)
+
+[node name="Wall_24_12" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(784, 400)
+
+[node name="Wall_25_12" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(816, 400)
+
+[node name="Wall_26_12" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(848, 400)
+
+[node name="Wall_27_12" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(880, 400)
+
+[node name="Wall_28_12" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(912, 400)
+
+[node name="Wall_29_12" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(944, 400)
+
+[node name="Wall_30_12" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(976, 400)
+
+[node name="Wall_31_12" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1008, 400)
+
+[node name="Wall_32_12" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1040, 400)
+
+[node name="Wall_33_12" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1072, 400)
+
+[node name="Wall_34_12" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1104, 400)
+
+[node name="Wall_35_12" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1136, 400)
+
+[node name="Wall_36_12" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1168, 400)
+
+[node name="Wall_37_12" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1200, 400)
+
+[node name="Wall_38_12" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1232, 400)
+
+[node name="Wall_39_12" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1264, 400)
+
+[node name="Wall_0_13" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(16, 432)
+
+[node name="Wall_39_13" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1264, 432)
+
+[node name="Wall_0_14" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(16, 464)
+
+[node name="Wall_39_14" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1264, 464)
+
+[node name="Wall_0_15" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(16, 496)
+
+[node name="Wall_39_15" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1264, 496)
+
+[node name="Wall_0_16" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(16, 528)
+
+[node name="Wall_39_16" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1264, 528)
+
+[node name="Wall_0_17" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(16, 560)
+
+[node name="Wall_39_17" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1264, 560)
+
+[node name="Wall_0_18" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(16, 592)
+
+[node name="Wall_39_18" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1264, 592)
+
+[node name="Wall_0_19" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(16, 624)
+
+[node name="Wall_1_19" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(48, 624)
+
+[node name="Wall_2_19" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(80, 624)
+
+[node name="Wall_3_19" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(112, 624)
+
+[node name="Wall_4_19" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(144, 624)
+
+[node name="Wall_5_19" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(176, 624)
+
+[node name="Wall_6_19" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(208, 624)
+
+[node name="Wall_7_19" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(240, 624)
+
+[node name="Wall_8_19" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(272, 624)
+
+[node name="Wall_9_19" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(304, 624)
+
+[node name="Wall_10_19" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(336, 624)
+
+[node name="Wall_11_19" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(368, 624)
+
+[node name="Wall_12_19" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(400, 624)
+
+[node name="Wall_13_19" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(432, 624)
+
+[node name="Wall_14_19" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(464, 624)
+
+[node name="Wall_15_19" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(496, 624)
+
+[node name="Wall_16_19" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(528, 624)
+
+[node name="Wall_17_19" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(560, 624)
+
+[node name="Wall_18_19" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(592, 624)
+
+[node name="Wall_19_19" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(624, 624)
+
+[node name="Wall_20_19" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(656, 624)
+
+[node name="Wall_21_19" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(688, 624)
+
+[node name="Wall_22_19" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(720, 624)
+
+[node name="Wall_23_19" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(752, 624)
+
+[node name="Wall_24_19" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(784, 624)
+
+[node name="Wall_25_19" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(816, 624)
+
+[node name="Wall_26_19" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(848, 624)
+
+[node name="Wall_27_19" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(880, 624)
+
+[node name="Wall_28_19" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(912, 624)
+
+[node name="Wall_29_19" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(944, 624)
+
+[node name="Wall_30_19" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(976, 624)
+
+[node name="Wall_31_19" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1008, 624)
+
+[node name="Wall_32_19" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1040, 624)
+
+[node name="Wall_33_19" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1072, 624)
+
+[node name="Wall_34_19" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1104, 624)
+
+[node name="Wall_35_19" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1136, 624)
+
+[node name="Wall_36_19" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1168, 624)
+
+[node name="Wall_37_19" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1200, 624)
+
+[node name="Wall_38_19" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1232, 624)
+
+[node name="Wall_39_19" parent="Murs" instance=ExtResource("3_wall")]
+position = Vector2(1264, 624)
+
+[node name="Caisse1" parent="." instance=ExtResource("4_crate")]
+position = Vector2(176, 48)
+
+[node name="Caisse2" parent="." instance=ExtResource("4_crate")]
+position = Vector2(304, 48)
+
+[node name="Caisse3" parent="." instance=ExtResource("4_crate")]
+position = Vector2(848, 48)
+
+[node name="CaisseCle" parent="." instance=ExtResource("4_crate")]
+position = Vector2(1200, 48)
+has_key = true
+
+[node name="Marcheur1" parent="." instance=ExtResource("9_zombie")]
+position = Vector2(464, 80)
+
+[node name="Marcheur2" parent="." instance=ExtResource("9_zombie")]
+position = Vector2(912, 80)
+
+[node name="Coureur1" parent="." instance=ExtResource("10_zombie_run")]
+position = Vector2(1168, 112)
+
+[node name="Marcheur3" parent="." instance=ExtResource("9_zombie")]
+position = Vector2(560, 144)
+
+[node name="Baril1" parent="." instance=ExtResource("5_barrel")]
+position = Vector2(816, 144)
+
+[node name="Marcheur4" parent="." instance=ExtResource("9_zombie")]
+position = Vector2(1104, 144)
+
+[node name="Baril2" parent="." instance=ExtResource("5_barrel")]
+position = Vector2(400, 176)
+
+[node name="Caisse4" parent="." instance=ExtResource("4_crate")]
+position = Vector2(144, 272)
+
+[node name="PointSauvegarde1" parent="." instance=ExtResource("7_checkpoint")]
+position = Vector2(208, 272)
+
+[node name="Marcheur5" parent="." instance=ExtResource("9_zombie")]
+position = Vector2(304, 272)
+
+[node name="Baril3" parent="." instance=ExtResource("5_barrel")]
+position = Vector2(1008, 272)
+
+[node name="Coureur2" parent="." instance=ExtResource("10_zombie_run")]
+position = Vector2(528, 304)
+
+[node name="Marcheur6" parent="." instance=ExtResource("9_zombie")]
+position = Vector2(784, 304)
+
+[node name="Caisse5" parent="." instance=ExtResource("4_crate")]
+position = Vector2(1168, 304)
+
+[node name="Baril4" parent="." instance=ExtResource("5_barrel")]
+position = Vector2(464, 336)
+
+[node name="Marcheur7" parent="." instance=ExtResource("9_zombie")]
+position = Vector2(1104, 336)
+
+[node name="Porte" parent="." instance=ExtResource("6_door")]
+position = Vector2(656, 400)
+
+[node name="PointSauvegarde2" parent="." instance=ExtResource("7_checkpoint")]
+position = Vector2(656, 464)
+
+[node name="Baril5" parent="." instance=ExtResource("5_barrel")]
+position = Vector2(784, 464)
+
+[node name="Marcheur8" parent="." instance=ExtResource("9_zombie")]
+position = Vector2(272, 496)
+
+[node name="Caisse6" parent="." instance=ExtResource("4_crate")]
+position = Vector2(720, 496)
+
+[node name="Coureur3" parent="." instance=ExtResource("10_zombie_run")]
+position = Vector2(976, 496)
+
+[node name="Marcheur9" parent="." instance=ExtResource("9_zombie")]
+position = Vector2(848, 528)
+
+[node name="Sortie" parent="." instance=ExtResource("8_exit")]
+position = Vector2(1232, 528)
+
+[node name="Caisse7" parent="." instance=ExtResource("4_crate")]
+position = Vector2(272, 560)
+
+[node name="Baril6" parent="." instance=ExtResource("5_barrel")]
+position = Vector2(400, 560)
+
+[node name="Joueur" parent="." instance=ExtResource("11_player")]
+position = Vector2(80, 80)
+
+[node name="HUD" parent="." instance=ExtResource("2_hud")]
