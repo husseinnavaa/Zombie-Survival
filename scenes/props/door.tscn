@@ -1,0 +1,45 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/door.gd" id="1_door"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2"]
+size = Vector2(32, 32)
+
+[node name="Door" type="StaticBody2D" groups=["interactable", "dynamic_obstacle", "stateful", "doors"]]
+collision_layer = 1
+collision_mask = 0
+script = ExtResource("1_door")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_2")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Closed" type="Node2D" parent="Visual"]
+
+[node name="Plate" type="Polygon2D" parent="Visual/Closed"]
+color = Color(0.290, 0.322, 0.376, 1.000)
+polygon = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+
+[node name="Inner" type="Polygon2D" parent="Visual/Closed"]
+color = Color(0.227, 0.255, 0.302, 1.000)
+polygon = PackedVector2Array(-14, -14, 14, -14, 14, 14, -14, 14)
+
+[node name="RedBar" type="Polygon2D" parent="Visual/Closed"]
+color = Color(0.541, 0.165, 0.165, 1.000)
+polygon = PackedVector2Array(-14, -2, 14, -2, 14, 2, -14, 2)
+
+[node name="Lock" type="Polygon2D" parent="Visual/Closed"]
+color = Color(0.847, 0.694, 0.227, 1.000)
+polygon = PackedVector2Array(-4, -5, 4, -5, 4, 5, -4, 5)
+
+[node name="Open" type="Node2D" parent="Visual"]
+visible = false
+
+[node name="PostLeft" type="Polygon2D" parent="Visual/Open"]
+color = Color(0.227, 0.255, 0.302, 1.000)
+polygon = PackedVector2Array(-16, -16, -11, -16, -11, 16, -16, 16)
+
+[node name="PostRight" type="Polygon2D" parent="Visual/Open"]
+color = Color(0.227, 0.255, 0.302, 1.000)
+polygon = PackedVector2Array(11, -16, 16, -16, 16, 16, 11, 16)
