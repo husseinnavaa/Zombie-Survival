@@ -1,8 +1,18 @@
 # Game Design Document — Zombie Survival 2D
 
+## Équipe
+
+| Nom | Matricule |
+|---|---|
+| Adam Belasfar | 2733326 |
+| El Hussein Navaa | 2733158 |
+| Wael Feki | 2733126 |
+
+---
+
 ## 1. Introduction
 
-Ce document présente le Game Design Document (GDD) de **Outbreak: Sector 2D** (titre temporaire), un jeu d'action et de survie **top-down 2D** (vue du dessus). Le joueur doit survivre à des zombies tout en gérant ses munitions et en atteignant la sortie de chaque niveau. L'ambiance est rétro, sombre et exigeante.
+Ce document présente le Game Design Document (GDD) de **Zombie Survival 2D** (titre temporaire), un jeu d'action et de survie **top-down 2D** (vue du dessus). Le joueur doit survivre à des zombies tout en gérant ses munitions et en atteignant la sortie de chaque niveau. L'ambiance est rétro, sombre et exigeante.
 
 ## 2. Spécifications
 
