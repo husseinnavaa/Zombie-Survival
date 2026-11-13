@@ -1,4 +1,4 @@
-# Outbreak: Sector 2D — Partie 1
+# Zombie Survival 2D — Partie 1
 
 Jeu d'action/survie **top-down 2D** fait avec **Godot 4.3+** (renderer Compatibilité).
 Le jeu est construit avec des **scènes et des nodes** : tout est visible et modifiable dans l'éditeur.
