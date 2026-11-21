@@ -18,6 +18,10 @@ config/name="Outbreak: Sector 2D"
 run/main_scene="res://scenes/main.tscn"
 config/features=PackedStringArray("4.7")
 
+[autoload]
+
+Game="*uid://cgmgka0rmkb2s"
+
 [display]
 
 window/size/viewport_width=1280
