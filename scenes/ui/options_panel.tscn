@@ -1,0 +1,84 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/options_panel.gd" id="1_optionspanel"]
+
+[node name="OptionsPanel" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+script = ExtResource("1_optionspanel")
+
+[node name="Dim" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.000, 0.000, 0.000, 0.880)
+mouse_filter = 2
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Box" type="VBoxContainer" parent="Center"]
+layout_mode = 2
+theme_override_constants/separation = 18
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="Center/Box"]
+layout_mode = 2
+text = "OPTIONS"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 44
+theme_override_colors/font_color = Color(1.000, 1.000, 1.000, 1.000)
+theme_override_colors/font_shadow_color = Color(0.000, 0.000, 0.000, 0.800)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+mouse_filter = 2
+
+[node name="VolumeRow" type="HBoxContainer" parent="Center/Box"]
+layout_mode = 2
+theme_override_constants/separation = 16
+mouse_filter = 2
+
+[node name="VolumeLabel" type="Label" parent="Center/Box/VolumeRow"]
+layout_mode = 2
+text = "Volume"
+horizontal_alignment = 0
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.902, 0.929, 0.961, 1.000)
+theme_override_colors/font_shadow_color = Color(0.000, 0.000, 0.000, 0.800)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+mouse_filter = 2
+
+[node name="VolumeSlider" type="HSlider" parent="Center/Box/VolumeRow"]
+layout_mode = 2
+unique_name_in_owner = true
+custom_minimum_size = Vector2(260, 24)
+size_flags_horizontal = 3
+size_flags_vertical = 4
+step = 1.0
+value = 80.0
+
+[node name="FullscreenCheck" type="CheckBox" parent="Center/Box"]
+layout_mode = 2
+unique_name_in_owner = true
+text = "Plein écran"
+
+[node name="BackButton" type="Button" parent="Center/Box"]
+layout_mode = 2
+unique_name_in_owner = true
+custom_minimum_size = Vector2(360, 42)
+text = "Retour"
