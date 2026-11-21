@@ -1,6 +1,7 @@
 [gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/hud.gd" id="1_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/options_panel.tscn" id="2_options"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2"]
 bg_color = Color(0.769, 0.169, 0.169, 1.000)
@@ -303,11 +304,23 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(360, 42)
 text = "Reprendre"
 
+[node name="InventoryButton" type="Button" parent="PauseMenu/Center/Box"]
+layout_mode = 2
+unique_name_in_owner = true
+custom_minimum_size = Vector2(360, 42)
+text = "Inventaire"
+
+[node name="OptionsButton" type="Button" parent="PauseMenu/Center/Box"]
+layout_mode = 2
+unique_name_in_owner = true
+custom_minimum_size = Vector2(360, 42)
+text = "Options"
+
 [node name="QuitButton" type="Button" parent="PauseMenu/Center/Box"]
 layout_mode = 2
 unique_name_in_owner = true
 custom_minimum_size = Vector2(360, 42)
-text = "Quitter"
+text = "Quitter vers le menu principal"
 
 [node name="GameOverMenu" type="Control" parent="."]
 layout_mode = 3
@@ -371,7 +384,7 @@ text = "Recommencer le niveau"
 layout_mode = 2
 unique_name_in_owner = true
 custom_minimum_size = Vector2(360, 42)
-text = "Quitter"
+text = "Quitter vers le menu principal"
 
 [node name="WinMenu" type="Control" parent="."]
 layout_mode = 3
@@ -408,8 +421,9 @@ layout_mode = 2
 theme_override_constants/separation = 14
 mouse_filter = 2
 
-[node name="Title" type="Label" parent="WinMenu/Center/Box"]
+[node name="WinTitle" type="Label" parent="WinMenu/Center/Box"]
 layout_mode = 2
+unique_name_in_owner = true
 text = "NIVEAU TERMINÉ"
 horizontal_alignment = 1
 theme_override_font_sizes/font_size = 48
@@ -441,4 +455,109 @@ text = "Rejouer le niveau"
 layout_mode = 2
 unique_name_in_owner = true
 custom_minimum_size = Vector2(360, 42)
-text = "Quitter"
+text = "Quitter vers le menu principal"
+
+[node name="BossBox" type="VBoxContainer" parent="."]
+layout_mode = 3
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0
+anchor_right = 0.5
+anchor_bottom = 0
+offset_left = -260
+offset_top = 56
+offset_right = 260
+offset_bottom = 100
+grow_horizontal = 2
+unique_name_in_owner = true
+visible = false
+mouse_filter = 2
+
+[node name="BossName" type="Label" parent="BossBox"]
+layout_mode = 2
+text = "LE BOUCHER"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(0.950, 0.350, 0.350, 1.000)
+theme_override_colors/font_shadow_color = Color(0.000, 0.000, 0.000, 0.800)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+unique_name_in_owner = true
+mouse_filter = 2
+
+[node name="BossBar" type="ProgressBar" parent="BossBox"]
+layout_mode = 2
+unique_name_in_owner = true
+custom_minimum_size = Vector2(520, 14)
+max_value = 100.0
+value = 100.0
+show_percentage = false
+theme_override_styles/fill = SubResource("StyleBoxFlat_2")
+mouse_filter = 2
+
+[node name="InventoryPanel" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+unique_name_in_owner = true
+visible = false
+mouse_filter = 0
+
+[node name="Dim" type="ColorRect" parent="InventoryPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.000, 0.000, 0.000, 0.880)
+mouse_filter = 2
+
+[node name="Center" type="CenterContainer" parent="InventoryPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Box" type="VBoxContainer" parent="InventoryPanel/Center"]
+layout_mode = 2
+theme_override_constants/separation = 18
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="InventoryPanel/Center/Box"]
+layout_mode = 2
+text = "INVENTAIRE"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 44
+theme_override_colors/font_color = Color(1.000, 1.000, 1.000, 1.000)
+theme_override_colors/font_shadow_color = Color(0.000, 0.000, 0.000, 0.800)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+mouse_filter = 2
+
+[node name="InventoryText" type="Label" parent="InventoryPanel/Center/Box"]
+layout_mode = 2
+text = "…"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 24
+theme_override_colors/font_color = Color(0.902, 0.929, 0.961, 1.000)
+theme_override_colors/font_shadow_color = Color(0.000, 0.000, 0.000, 0.800)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+unique_name_in_owner = true
+mouse_filter = 2
+
+[node name="InventoryBackButton" type="Button" parent="InventoryPanel/Center/Box"]
+layout_mode = 2
+unique_name_in_owner = true
+custom_minimum_size = Vector2(360, 42)
+text = "Retour"
+
+[node name="OptionsPanel" parent="." instance=ExtResource("2_options")]
+unique_name_in_owner = true

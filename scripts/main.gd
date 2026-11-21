@@ -1,13 +1,13 @@
-## Scène principale du jeu (main.tscn) : le niveau 1 complet.
+## Script commun à tous les niveaux (level_1.tscn, level_2.tscn, level_3.tscn).
 ##
-## Le niveau est construit directement dans main.tscn avec des nodes : CanvasModulate (obscurité),
-## Sol,
-## Murs, Porte, Caisses, Barils, Points de sauvegarde, Sortie, Zombies, Joueur et HUD.
+## Chaque niveau est construit directement avec des nodes : CanvasModulate (obscurité), Sol, Murs,
+## Porte, Caisses, Barils, Points de sauvegarde, Sortie, Zombies, Joueur et HUD. Le niveau 3 contient
+## aussi le boss Le Boucher.
 ##
 ## Ce script :
 ##   - relie les nodes entre eux grâce aux signaux (joueur -> HUD, zombies, barils, porte...) ;
 ##   - calcule le chemin des zombies autour des obstacles ;
-##   - gère la sauvegarde aux points de contrôle, la mort et la victoire.
+##   - gère la sauvegarde aux points de contrôle, la mort, le boss et le passage au niveau suivant.
 class_name Main
 extends Node2D
 
@@ -16,9 +16,13 @@ const TILE := 32
 # Les 4 directions (droite, gauche, bas, haut) utilisées pour explorer la grille
 const DIRS := [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]
 
-# Données du dernier point de sauvegarde (gardées quand on recharge la scène)
-# 'static' : la variable appartient à la classe, donc elle survit au rechargement de la scène
-static var saved: Dictionary = {}
+# Dernier point de sauvegarde. Il est stocké dans le singleton Game (qui survit au rechargement de la
+# scène) ; cette propriété sert de raccourci pour écrire simplement 'saved' dans ce script.
+var saved: Dictionary:
+	get:
+		return Game.saved
+	set(value):
+		Game.saved = value
 
 ## Titre affiché au début du niveau.
 @export var title := "CHAPITRE 1 — LA BANLIEUE"
@@ -37,6 +41,12 @@ var destroyed: Array = []
 var finished := false
 # La porte verrouillée du niveau
 var door: Door
+# Le boss du niveau (null s'il n'y en a pas) et vrai tant qu'il est vivant
+# (pas de type : le script du boss, boucher.gd, arrive dans une tâche plus tard)
+var boss
+var boss_alive := false
+# Vrai quand la barre de vie du boss est déjà affichée
+var boss_intro_done := false
 # Cases bloquées par des murs (Vector2i -> true) : calculées une seule fois au démarrage
 var static_blocked := {}
 # Champ de distance : pour chaque case accessible, nombre de pas jusqu'au joueur
@@ -54,6 +64,10 @@ var dist_timer := 0.0
 func _ready() -> void:
 	# Groupe 'level' : les zombies s'en servent pour retrouver ce script
 	add_to_group("level")
+	# On retrouve le numéro du niveau grâce au chemin de la scène (pratique pour tester avec F6)
+	var index: int = Game.LEVELS.find(scene_file_path)
+	if index >= 0:
+		Game.current_level = index
 	Input.set_default_cursor_shape(Input.CURSOR_CROSS)
 	# La caméra ne dépasse pas les bords du niveau
 	player.set_camera_limits(grid_size * TILE)
@@ -74,10 +88,25 @@ func _ready() -> void:
 		(cp as Checkpoint).activated.connect(_on_checkpoint)
 	for ex in get_tree().get_nodes_in_group("exit"):
 		(ex as ExitZone).reached.connect(_on_exit)
+		(ex as ExitZone).blocked.connect(_on_exit_blocked)
 
-	# Si le joueur avait atteint un point de sauvegarde avant de mourir, on reprend à cet endroit
-	if not saved.is_empty():
+	# Si le joueur avait atteint un point de sauvegarde de CE niveau avant de mourir, on reprend là.
+	# Sinon : on garde la vie et les munitions du niveau précédent (s'il y en a).
+	if not saved.is_empty() and int(saved.get("level", -1)) == Game.current_level:
 		_apply_checkpoint()
+	else:
+		saved = {}
+		if not Game.carry.is_empty():
+			player.restore(float(Game.carry["hp"]), int(Game.carry["mag"]), int(Game.carry["reserve"]), false)
+
+	# Boss : on branche sa barre de vie et on verrouille la sortie tant qu'il est vivant
+	boss = get_tree().get_first_node_in_group("boss")
+	if boss != null and not (str(boss.name) in killed):
+		boss_alive = true
+		boss.health_changed.connect(hud.set_boss_health)
+		boss.died.connect(_on_boss_died)
+		for ex in get_tree().get_nodes_in_group("exit"):
+			(ex as ExitZone).locked = true
 
 	# Le joueur parle au HUD par signaux
 	player.health_changed.connect(hud.set_health)
@@ -92,6 +121,8 @@ func _ready() -> void:
 	player.hurt.connect(hud.flash_hurt)
 	player.died.connect(_on_player_died)
 	hud.restart_requested.connect(_on_restart_requested)
+	# Le HUD lit le joueur pour afficher l'inventaire du menu pause
+	hud.bind_player(player)
 
 	# Dernières étapes : titre du niveau, état initial du HUD, objectif et chemin des zombies
 	hud.show_title(title, subtitle)
@@ -103,6 +134,12 @@ func _ready() -> void:
 ## Fait avancer le chronomètre de la partie.
 func _process(delta: float) -> void:
 	time_played += delta
+	# Le boss présente sa barre de vie quand le joueur s'approche
+	if boss_alive and not boss_intro_done and player.global_position.distance_to(boss.global_position) < 420.0:
+		boss_intro_done = true
+		hud.show_boss("LE BOUCHER", boss.hp, boss.max_hp)
+		hud.toast("Le Boucher vous a repéré !")
+		player.add_shake(5.0)
 
 
 ## Recalcule le champ de distance toutes les 0,3 s (pas à chaque image, pour économiser du travail).
@@ -113,8 +150,8 @@ func _physics_process(delta: float) -> void:
 		_update_dist()
 
 
-## Choisit le texte de l'objectif selon la progression : trouver la clé, ouvrir la porte, puis
-## atteindre la sortie.
+## Choisit le texte de l'objectif selon la progression : trouver la clé, ouvrir la porte, éliminer le
+## boss s'il y en a un, puis atteindre la sortie.
 func refresh_objective() -> void:
 	var text := "Objectif : atteindre la zone d'évacuation"
 	if door != null and not door.used:
@@ -122,6 +159,8 @@ func refresh_objective() -> void:
 			text = "Objectif : ouvrir la porte verrouillée"
 		else:
 			text = "Objectif : trouver la clé de la porte verrouillée"
+	elif boss_alive:
+		text = "Objectif : éliminer Le Boucher"
 	hud.set_objective(text)
 
 
@@ -205,16 +244,38 @@ func _on_player_died() -> void:
 	get_tree().paused = true
 
 
-## Le joueur a atteint la sortie : affiche l'écran de victoire avec le nombre de zombies tués et le
-## temps.
+## Le boss est mort : on déverrouille la sortie et on cache sa barre de vie.
+func _on_boss_died(_z: Zombie) -> void:
+	boss_alive = false
+	hud.hide_boss()
+	hud.toast("Le Boucher est mort ! La sortie est ouverte.")
+	refresh_objective()
+	player.add_shake(6.0)
+	for ex in get_tree().get_nodes_in_group("exit"):
+		(ex as ExitZone).unlock()
+
+
+## Le joueur touche la sortie alors qu'elle est verrouillée.
+func _on_exit_blocked() -> void:
+	hud.toast("Sortie verrouillée : éliminez Le Boucher !")
+
+
+## Le joueur a atteint la sortie. Dernier niveau : écran de victoire avec les totaux de la campagne.
+## Sinon : on passe au niveau suivant en gardant la vie et les munitions du joueur.
 func _on_exit() -> void:
 	if finished:
 		return
 	finished = true
-	# Le niveau est terminé : on efface la sauvegarde
-	saved.clear()
-	hud.show_win(killed.size(), time_played)
-	get_tree().paused = true
+	# Les statistiques du niveau s'ajoutent aux totaux ; le point de sauvegarde est effacé
+	Game.finish_level(killed.size(), time_played)
+	if Game.is_last_level():
+		hud.show_win(Game.total_kills, Game.total_time, true)
+		get_tree().paused = true
+	else:
+		hud.toast("Niveau terminé !")
+		# Le jeu se fige pendant le fondu au noir (les zombies ne peuvent plus attaquer)
+		get_tree().paused = true
+		Game.next_level({"hp": player.hp, "mag": player.mag, "reserve": player.reserve})
 
 
 ## Appelé par les boutons du HUD. 'from_checkpoint' vaut vrai pour reprendre au dernier point de
@@ -223,9 +284,8 @@ func _on_exit() -> void:
 func _on_restart_requested(from_checkpoint: bool) -> void:
 	if not from_checkpoint:
 		saved.clear()
-	get_tree().paused = false
-	# Recharge toute la scène ; la variable statique 'saved' survit au rechargement
-	get_tree().reload_current_scene()
+	# Recharge le niveau avec un fondu ; 'saved' est dans Game, donc il survit au rechargement
+	Game.restart_level()
 
 
 # ---------- points de sauvegarde ----------
@@ -242,6 +302,7 @@ func _on_checkpoint(cp: Checkpoint) -> void:
 	# La sauvegarde est un dictionnaire : position, vie, munitions, clé, zombies tués, barils détruits,
 	# objets utilisés, temps
 	saved = {
+		"level": Game.current_level,
 		"pos": cp.global_position,
 		"hp": player.hp,
 		"mag": player.mag,
@@ -252,6 +313,8 @@ func _on_checkpoint(cp: Checkpoint) -> void:
 		"used": used_names,
 		"time": time_played,
 	}
+	# Sauvegarde aussi dans le fichier JSON pour pouvoir « Charger partie » plus tard
+	Game.write_save()
 	hud.toast("Point de sauvegarde")
 
 

@@ -1,7 +1,8 @@
 ## Interface du jeu (scène hud.tscn, un CanvasLayer).
 ##
 ## Affiche : barres de vie et d'endurance, munitions, clé, objectif, messages, titre du niveau,
-## effet de dégâts, et les menus pause, mort et victoire.
+## effet de dégâts, barre de vie du boss, et les menus pause (avec inventaire et options), mort et
+## victoire.
 ## Ce script ne contient aucune logique de jeu : main.gd appelle ses fonctions (set_health,
 ## toast...)
 ## quand les signaux du joueur arrivent.
@@ -31,11 +32,22 @@ signal restart_requested(from_checkpoint: bool)
 @onready var game_over_menu: Control = %GameOverMenu
 @onready var win_menu: Control = %WinMenu
 @onready var win_stats: Label = %WinStats
+@onready var win_title: Label = %WinTitle
+@onready var boss_box: Control = %BossBox
+@onready var boss_name: Label = %BossName
+@onready var boss_bar: ProgressBar = %BossBar
+@onready var inventory_panel: Control = %InventoryPanel
+@onready var inventory_text: Label = %InventoryText
+@onready var options_panel: OptionsPanel = %OptionsPanel
 
 # Vrai quand un écran de fin (mort ou victoire) est affiché : la pause n'est alors plus possible
 var over := false
 # Animation du message temporaire en cours (pour l'interrompre si un autre message arrive)
 var toast_tween: Tween
+# Le joueur, lu par l'inventaire du menu pause (voir bind_player)
+var player_ref: Player
+# Vrai quand l'écran de victoire est celui de la fin de la campagne
+var final_win := false
 
 
 ## Cache les menus et connecte chaque bouton à son action.
@@ -43,15 +55,22 @@ func _ready() -> void:
 	pause_menu.hide()
 	game_over_menu.hide()
 	win_menu.hide()
+	boss_box.hide()
+	inventory_panel.hide()
 	toast_label.text = ""
 	title_box.modulate.a = 0.0
-	# Boutons : Reprendre et Quitter (pause), Recommencer (mort), Rejouer et Quitter (victoire)
+	# Boutons : Reprendre, Inventaire, Options et Quitter (pause), Recommencer (mort), Rejouer et Quitter
+	# (victoire)
 	%ResumeButton.pressed.connect(_resume)
+	%InventoryButton.pressed.connect(_open_inventory)
+	%OptionsButton.pressed.connect(_open_options)
+	%InventoryBackButton.pressed.connect(_close_inventory)
+	options_panel.closed.connect(func() -> void: %OptionsButton.grab_focus())
 	%QuitButton.pressed.connect(_quit)
 	%RestartCheckpointButton.pressed.connect(func() -> void: restart_requested.emit(true))
 	%RestartLevelButton.pressed.connect(func() -> void: restart_requested.emit(false))
 	%QuitButtonOver.pressed.connect(_quit)
-	%ReplayButton.pressed.connect(func() -> void: restart_requested.emit(false))
+	%ReplayButton.pressed.connect(_on_replay)
 	%QuitButtonWin.pressed.connect(_quit)
 
 
@@ -61,7 +80,12 @@ func _unhandled_input(event: InputEvent) -> void:
 	if over:
 		return
 	if event.is_action_pressed("ui_cancel"):
-		if get_tree().paused:
+		# Échap ferme d'abord l'inventaire ou les options s'ils sont ouverts
+		if inventory_panel.visible:
+			_close_inventory()
+		elif options_panel.visible:
+			options_panel.close()
+		elif get_tree().paused:
 			_resume()
 		else:
 			_pause()
@@ -81,9 +105,44 @@ func _resume() -> void:
 	get_tree().paused = false
 
 
-## Ferme le jeu.
+## Retourne au menu principal (le singleton Game fait le changement de scène avec un fondu).
 func _quit() -> void:
-	get_tree().quit()
+	Game.go_to_menu()
+
+
+## Bouton « Rejouer » de l'écran de victoire : recommence le niveau, ou toute la campagne si c'était la
+## fin du jeu.
+func _on_replay() -> void:
+	if final_win:
+		Game.new_game()
+	else:
+		restart_requested.emit(false)
+
+
+## Mémorise le joueur pour pouvoir afficher son inventaire dans le menu pause.
+func bind_player(p: Player) -> void:
+	player_ref = p
+
+
+## Affiche l'inventaire : vie, munitions, clé et endurance du joueur.
+func _open_inventory() -> void:
+	if player_ref != null:
+		inventory_text.text = "Vie : %d / %d\nChargeur : %d   |   Réserve : %d\nClé de la porte : %s" % [
+			int(player_ref.hp), int(player_ref.max_hp), player_ref.mag, player_ref.reserve,
+			"oui" if player_ref.has_key else "non"]
+	inventory_panel.show()
+	%InventoryBackButton.grab_focus()
+
+
+## Cache l'inventaire.
+func _close_inventory() -> void:
+	inventory_panel.hide()
+	%InventoryButton.grab_focus()
+
+
+## Ouvre le panneau des options (le même que dans le menu principal).
+func _open_options() -> void:
+	options_panel.open()
 
 
 # ---------- fonctions appelées par main.gd (via les signaux du joueur et du niveau) ----------
@@ -163,9 +222,33 @@ func show_game_over() -> void:
 	%RestartCheckpointButton.grab_focus()
 
 
+## Affiche la barre de vie du boss en haut de l'écran.
+func show_boss(boss_title: String, hp: float, max_hp: float) -> void:
+	boss_name.text = boss_title
+	boss_bar.max_value = max_hp
+	boss_bar.value = hp
+	boss_box.show()
+
+
+## Met à jour la barre de vie du boss.
+func set_boss_health(hp: float, max_hp: float) -> void:
+	boss_bar.max_value = max_hp
+	boss_bar.value = hp
+
+
+## Cache la barre de vie du boss (il est mort).
+func hide_boss() -> void:
+	boss_box.hide()
+
+
 ## Affiche l'écran de victoire avec le nombre de zombies tués et le temps (minutes:secondes).
-func show_win(kills: int, seconds: float) -> void:
+## Si 'final' est vrai, c'est la fin de la campagne : le titre et le bouton changent.
+func show_win(kills: int, seconds: float, final := false) -> void:
 	over = true
+	final_win = final
+	if final:
+		win_title.text = "VOUS AVEZ SURVÉCU !"
+		%ReplayButton.text = "Rejouer la campagne"
 	# Conversion en minutes (s / 60) et secondes (s % 60)
 	var s := int(seconds)
 	win_stats.text = "Zombies éliminés : %d   |   Temps : %d:%02d" % [kills, s / 60, s % 60]
